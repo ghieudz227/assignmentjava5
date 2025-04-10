@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Xác nhận kích hoạt tài khoản</title>
+</head>
+<body>
+    <h1>Xác nhận kích hoạt tài khoản</h1>
+    <p>Bạn có chắc muốn kích hoạt tài khoản không?</p>
+    <form action="/activate/confirm" method="post">
+        <input type="hidden" name="token" th:value="${token}" />
+        <button onclick="return confirm('Xác nhận tài khoản ? ')" type="submit">Xác nhận</button>
+    </form>
+</body>
+</html>

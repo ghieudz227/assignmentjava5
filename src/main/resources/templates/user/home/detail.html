@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chi Tiết Sản Phẩm</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <!-- FontAwesome 6.2.0 CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- (Optional) Use CSS or JS implementation -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
+      integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link rel="stylesheet" href="/css/detail.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div class="container mt-4">
+      <div class="row">
+        <a style="color: black" href="/home" class="mb-2"> > Mua Thêm </a>
+        <br />
+        <!-- Ảnh sản phẩm -->
+        <th:block th:each="product : ${product}">
+          <div class="col-md-7">
+            <div class="product-img">
+              <img th:src="@{|/img/${product.image}|}" class="img-fluid" />
+            </div>
+          </div>
+          <!-- Thông tin sản phẩm -->
+          <div class="col-md-5">
+            <div class="product-detail">
+              <h3 class="text-primary" th:text="${product.name}">
+                Nồi cơm điện tử Sharp 1.8L
+              </h3>
+              <p
+                class="text-danger fs-4 fw-bold"
+                th:text="${#numbers.formatDecimal(product.price,0,'COMMA',0,'POINT')}"
+              >
+                1.750.000 đ
+              </p>
+              <p>
+                <strong th:text="${product.description}">Chức năng:</strong> 9
+                chế độ nấu, hẹn giờ
+              </p>
+
+              <div class="purchase-box">
+                <a style="width: 350px;height: 40px;" th:href="@{/cart/add2/{id}(id=${product.id})}" class="btn btn-danger">Mua ngay</a> <br>
+                <a
+                  th:if="${session.user != null}"
+                  th:href="@{/cart/add/{id}(id=${product.id})}"
+                  class="btn btn-outline-primary mt-3"
+                  style="width: 300px"
+                >
+                  <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+                </a>
+                <br>
+                <i style="color: rgb(41, 194, 10);" th:text="${message}"></i>
+
+                <!-- Nếu chưa đăng nhập -->
+                <a
+                  th:if="${session.user == null}"
+                  href="javascript:void(0);"
+                  onclick="alert('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!');"
+                  class="btn btn-outline-primary mt-3"
+                  style="width: 300px"
+                >
+                  <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+                </a>
+              </div>
+            </div>
+            <div class="commitment-box mt-4">
+              <h4>Điện Máy XANH cam kết</h4>
+              <ul>
+                <li>
+                  <strong>Bảo hành chính hãng</strong> 12 tháng tại các trung
+                  tâm bảo hành.
+                </li>
+                <li>
+                  Đổi trả dễ dàng trong vòng 7 ngày nếu có lỗi từ nhà sản xuất.
+                </li>
+                <li>Giao hàng nhanh chóng trong 2-4 ngày làm việc.</li>
+              </ul>
+            </div>
+          </div>
+        </th:block>
+      </div>
+
+      <!-- Sản phẩm cùng loại -->
+      <h1 class="mt-5">Sản phẩm cùng loại</h1>
+      <div class="row related-products row-cols-1 row-cols-md-4 g-3">
+        <th:block
+          th:each="product : ${#lists.size(cungLoai) > 5 ? cungLoai.subList(0,5) : cungLoai }"
+        >
+          <div class="col">
+            <a
+              th:href="@{|/detail/${product.id}|}"
+              style="text-decoration: none"
+            >
+              <div class="card h-50 border-0 shadow-sm">
+                <img
+                  th:src="@{|/img/${product.image}|}"
+                  class="card-img-top"
+                  alt="Sản phẩm"
+                />
+                <div class="card-body text-center">
+                  <h6 class="card-title" th:text="${product.name}">
+                    Nồi cơm điện Philips
+                  </h6>
+                  <p
+                    class="text-danger fw-bold"
+                    th:text="${#numbers.formatDecimal(product.price,0,'COMMA',0,'POINT')}"
+                  >
+                    1.650.000 đ
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </th:block>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

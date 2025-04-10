@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .btn-edit {
+        background-color: #3b82f6;
+        color: white;
+      }
+      .btn-delete {
+        background-color: #e3342f;
+        color: white;
+      }
+      .tt {
+        margin-top: 10px;
+      }
+
+      .buttonn {
+        display: flex;
+        justify-content: center; /* Canh giữa */
+        gap: 20px; /* Khoảng cách giữa các nút */
+        margin-top: 20px; /* Thêm khoảng cách phía trên */
+      }
+
+      .buttonn a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background-color: #3b82f6; /* Màu nền */
+        color: white; /* Màu icon */
+        border-radius: 50%; /* Bo tròn */
+        text-decoration: none; /* Bỏ gạch chân */
+        font-size: 18px;
+        transition: background-color 0.3s ease;
+      }
+
+      .buttonn a:hover {
+        background-color: #2563eb; /* Màu nền khi hover */
+      }
+      .card-header {
+        background-color: #b3e0f2;
+      }
+      .form-label {
+        font-weight: bold;
+      }
+      .btn-save {
+        background-color: #3b82f6;
+        color: white;
+      }
+      .btn-clear {
+        background-color: #38c172;
+        color: white;
+      }
+      .btn-save {
+        background-color: #3b82f6;
+        color: white;
+      }
+      .btn-clear {
+        background-color: #38c172;
+        color: white;
+      }
+
+      .product-image {
+        width: 90px;
+        height: 80px;
+        border-radius: 10px;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+
+   
+    <div class="container mt-5">
+      <div class="card shadow-lg">
+        <div class="card-header text-center">
+          <h4>Thêm Người Dùng </h4>
+        </div>
+        <div class="card-body">
+          <form
+            action="/admin/account/index"
+            method="post"
+            enctype="multipart/form-data"
+            th:object="${account}"
+          >
+            <div class="row">
+              <!-- Ảnh sản phẩm -->
+              <div class="col-md-3 text-center">
+                <img
+                  id="previewImage"
+                  th:src="@{|/img/${account.photo}|}"
+                  alt="Account Image"
+                  class="product-image mb-3"
+                />
+                <input
+                  type="file"
+                  name="photoFile"
+                  placeholder="Hình ảnh "
+                  onchange="previewFile(event)"
+                  id="" 
+                />
+              </div>
+
+              <!-- Thông tin sản phẩm -->
+              <div class="col-md-9">
+                <div class="mb-3">
+                  <label for="username" class="form-label">Username</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="username"
+                    th:field="*{username}"
+                    placeholder="User name"
+                    required
+                   
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="password"                
+                    th:field="*{password}"
+                    placeholder="Password"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="fullname" class="form-label">Họ và tên </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="fullname"
+                    th:field="*{fullname}"                   
+                    placeholder="Họ và tên "
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="email"
+                    th:field="*{email}"                
+                    placeholder=" Nhập email  "
+                    required
+                  />
+                </div>
+
+
+
+                <div class="row">
+                  
+
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Tình trạng</label><br />
+                    <div class="form-check form-check-inline">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        id="active"
+                        th:field="*{active}" 
+                        value="true"
+                        checked
+                      />
+                      <label class="form-check-label" for="active"
+                        >Active</label
+                      >
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        th:field="*{active}"
+                        id="not-available"
+                        
+                        value="false"
+                      />
+                      <label class="form-check-label" for="not-available"
+                        >Not Active</label
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Role</label><br />
+                    <div class="form-check form-check-inline">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        id="active"
+                        th:field="*{admin}" 
+                        value="true"
+                        checked
+                      />
+                      <label class="form-check-label" for="active"
+                        >Admin</label
+                      >
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        th:field="*{admin}"
+                        id="not-available"
+                        
+                        value="false"
+                      />
+                      <label class="form-check-label" for="not-available"
+                        > User </label
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Nút Save và Clear -->
+                <div class="d-flex justify-content-start gap-2">
+                  <button type="submit" formaction="/admin/account/add" class="btn btn-save">Save</button>
+                  <button type="submit" formaction="/admin/account/update" class="btn btn-clear">Update </button>
+                  <a href="/admin/account/reset">Reset</a>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    
+
+    <script>
+
+    function previewFile(event){
+      var reader = new FileReader();
+      reader.onload = function(){
+        var output = document.getElementById('previewImage');
+        output.src = reader.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+    </script>
+  </body>
+</html>

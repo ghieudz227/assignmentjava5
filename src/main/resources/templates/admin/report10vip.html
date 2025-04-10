@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Báo cáo doanh thu theo loại hàng</title>
+    <style>
+
+        .container33{
+            height: 700px;
+        }
+      
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {            
+            width: 100%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: #fff;
+        }
+        th, td {
+            padding: 10px 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #3b82f6; /* Màu nền */
+            color: #fff;
+            font-size: 16px;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container33">
+        <h1>Báo cáo doanh thu theo loại hàng</h1>
+    <table>
+        <thead>
+            <tr>
+               <th>Tên khách hàng</th>
+                <th>Tổng tiền đã mua</th>
+                <th>Ngày mua đầu tiên</th>
+                <th>Ngày mua sau cùng</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${vipCustomer}">
+                <td th:text="${item.customerName}"></td>
+                <td th:text="${#numbers.formatDecimal(item.totalSpent,0,'COMMA',0,'POINT')} + ' VND'"></td>
+                <td th:text="${item.firstOrderDate}"></td>
+                <td th:text="${item.lastOrderDate}"></td>            
+            </tr>
+        </tbody>
+    </table>
+    </div>
+</body>
+</html>

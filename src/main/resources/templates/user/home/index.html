@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trang Mua Sắm</title>
+    <!-- Link Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome 6.2.0 CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- (Optional) Use CSS or JS implementation -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
+      integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/home.css" />
+    
+    
+
+  </head>
+  <body>
+    <!-- Header -->
+ <section class="banner mt-3">
+      <div class="container">
+        <img
+         src="/img/banner.png"
+          class="img-fluid w-100"
+          alt="Ngày Đen Giảm Đỏ"
+        />
+      </div>
+    </section>
+
+    <!-- spham moi nhat -->
+
+    <section class="py-4">
+      <div class="container">
+        <h3 class="text-dark mb-4">Sản phẩm mới nhất</h3>
+        <div class="row row-cols-1 row-cols-md-4 g-3">
+          <!-- Sản phẩm 1 -->
+          <th:block th:each="product : ${#lists.size(top8news) > 5 ? top8news.subList(0,5) : top8news }">
+            <div class="col sp">
+            <div class="card product-card h-100 border-0 shadow-sm">
+              <a style="text-decoration: none; color: black;" th:href="@{|/detail/${product.id}|}">
+                <img
+                  th:src="@{|/img/${product.image}|}"
+                  
+                  class="card-img-top"
+                  alt="Sản phẩm"
+                />
+                <div class="card-body text-center">
+                  <h6 class="card-title" th:text="${product.name}">Nồi cơm điện Sharp 1.8L</h6>
+                    
+          
+                  <p class="price text-danger fw-bold" th:text="${#numbers.formatDecimal(product.price,0,'COMMA',0,'POINT')}">1.750.000 đ</p>
+                  <p class="text-muted small mb-1">
+                    <i class="bi bi-check-circle me-1" th:text="${product.description}"></i>
+                  </p>
+                  
+                </div>
+              </a>
+            </div>
+          </div>
+          </th:block>
+          
+         </div>
+      </div>
+    </section>
+
+    <!-- Sản phẩm bán chạy -->
+    <main class="mt-5">
+      <div class="container">
+        <h2 class="mb-4">Sản phẩm bán chạy nhất</h2>
+        <div class="row">
+          <!-- Sản phẩm -->
+          <th:block th:each="bestseller : ${#lists.size(productBestsell) > 5 ? productBestsell.subList(0,5) : productBestsell }">
+            <div class="col-6 col-md-4 col-lg-3 mb-4">
+              <a style="text-decoration: none;" th:href="@{|/detail/${bestseller.id}|}">
+                <div class="card product-card-hover h-100">
+                  <img
+                    th:src="@{|/img/${bestseller.image}|}"
+                    class="card-img-top"
+                    alt="LG TurboDrum"
+                  />
+                  <div class="card-body text-center">
+                    <h5 class="card-title" th:text="${bestseller.name}">
+                     
+                    </h5>
+                    <p class="text-danger fw-bold" th:text="${#numbers.formatDecimal(bestseller.price,0,'COMMA',0,'POINT')}">
+                      5.490.000 đ
+                    </p>
+                    <button class="btn btn-primary">Mua ngay</button>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </th:block>
+        </div>
+      </div>
+    </main>
+
+    
+   
+
+    <!-- Danh sách sản phẩm -->
+
+    
+
+    <main class="mt-5">
+      <div class="container">
+        <h2 class="mb-4">Điện Thoại</h2>
+        <div class="row">
+          <!-- Sản phẩm -->
+          <th:block th:each="DT : ${#lists.size(productDT) > 4 ? productDT.subList(0,4) : productDT }">
+            <div class="col-6 col-md-4 col-lg-3 mb-4">
+            <a style="text-decoration: none;" th:href="@{|/detail/${DT.id}|}">
+              <div class="card product-card-hover h-100">
+                <img
+                  
+                  th:src="@{|/img/${DT.image}|}"                  
+                  class="card-img-top"
+                  alt="LG TurboDrum"
+                />
+                <div class="card-body text-center">
+                  <h5 class="card-title" th:text="${DT.name}">LG TurboDrum Inverter T2109VSAB</h5>
+                  <p class="text-danger fw-bold" th:text="${#numbers.formatDecimal(DT.price,0,'COMMA',0,'POINT')}">5.490.000 đ</p>
+                  <button class="btn btn-primary">Mua ngay</button>
+                </div>
+              </div>
+            </a>
+          </div>
+          </th:block>
+        </div>
+      </div>
+    </main>
+
+    <main class="mt-5">
+      <div class="container">
+        <h2 class="mb-4">Lap Top </h2>
+        <div class="row">
+          <!-- Sản phẩm -->
+          <th:block th:with="productSize=${#lists.size(productLT)}">
+            <th:block th:with="limitedProducts=${productSize > 4 ? productLT.subList(0, 4) : productLT}">
+              <th:block th:each="DT : ${limitedProducts}">
+                <div class="col-6 col-md-4 col-lg-3 mb-4">
+                  <a style="text-decoration: none;" th:href="@{|/detail/${DT.id}|}">
+                    <div class="card product-card-hover h-100">
+                      <img th:src="@{|/img/${DT.image}|}" class="card-img-top" alt="LG TurboDrum" />
+                      <div class="card-body text-center">
+                        <h5 class="card-title" th:text="${DT.name}">LG TurboDrum Inverter T2109VSAB</h5>
+                        <p class="text-danger fw-bold" th:text="${#numbers.formatDecimal(DT.price,0,'COMMA',0,'POINT')}">
+                          5.490.000 đ
+                        </p>
+                        <button class="btn btn-primary">Mua ngay</button>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </th:block>
+            </th:block>
+          </th:block>
+        </div>
+      </div>
+    </main>
+
+    </main>
+
+
+    <!-- Link Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

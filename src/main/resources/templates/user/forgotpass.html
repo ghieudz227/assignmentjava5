@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quên mật khẩu | Điện Máy Xanh</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: #ffffff;
+            color: #333;
+            padding: 40px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: blue;
+        }
+        .message {
+            background-color: rgb(26, 192, 26);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 0 5px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .links {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+        .links a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .links a:hover {
+            text-decoration: underline;
+        }
+        button {
+            background-color:#007bff;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #007bff;
+        }
+        .messageerror{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="message" th:if="${message != null}" th:text="${message}"></div>
+        
+        <h2>Quên mật khẩu</h2>
+        <form action="/forgotpass" method="post">
+            <label for="email">Nhập email của bạn để lấy lại mật khẩu:</label>
+            <input type="email" id="email" name="email" placeholder="Nhập email của bạn" required>
+            
+        <div class="messageerror" th:if="${messageErorr != null}" th:text="${messageErorr}"></div>
+            <div class="links">
+                <a href="/login">Quay về đăng nhập</a>
+            </div>
+            <button type="submit">Gửi yêu cầu</button>
+        </form>
+    </div>
+</body>
+</html>

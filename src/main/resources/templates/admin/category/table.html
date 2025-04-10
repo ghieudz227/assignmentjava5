@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Danh Sách Sản Phẩm</title>
+    <!-- FontAwesome 6.2.0 CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- (Optional) Use CSS or JS implementation -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
+      integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <style>
+      .product-image {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+      .btn-edit {
+        background-color: #3b82f6;
+        color: white;
+      }
+      .btn-delete {
+        background-color: #e3342f;
+        color: white;
+      }
+      .tt {
+        margin-top: 10px;
+      }
+
+      .buttonn {
+        display: flex;
+        justify-content: center; /* Canh giữa */
+        gap: 20px; /* Khoảng cách giữa các nút */
+        margin-top: 20px; /* Thêm khoảng cách phía trên */
+      }
+
+      .buttonn a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background-color: #3b82f6; /* Màu nền */
+        color: white; /* Màu icon */
+        border-radius: 50%; /* Bo tròn */
+        text-decoration: none; /* Bỏ gạch chân */
+        font-size: 18px;
+        transition: background-color 0.3s ease;
+      }
+
+      .buttonn a:hover {
+        background-color: #2563eb; /* Màu nền khi hover */
+      }
+    </style>
+  </head>
+  <body class="bg-light">
+    <h4 class="tt">Category Pages</h4>
+    <hr />
+    <div class="container mt-5">
+      <div class="card shadow-lg">
+        <div class="card-body">
+          <table class="table table-hover table-bordered">
+            <thead class="table-primary text-center">
+              <tr>
+                <th>ID</th>
+
+                <th>Tên sản phẩm</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="item : ${page.content}">
+                <td class="text-center" th:text="${item.id}">1</td>
+                <td th:text="${item.name}"></td>
+
+                <td class="text-center">
+                  <a
+                    th:href="@{|/admin/category/edit/${item.id}|}"
+                    class="btn btn-edit btn-sm"
+                    >Sửa</a
+                  >
+                  <a
+                    th:href="@{|/admin/category/delete/${item.id}|}"
+                    class="btn btn-delete btn-sm"
+                    onclick="return confirm('Bạn có muốn xóa hay không?')"
+                    >Xóa</a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="buttonn">
+            <a th:href="@{|/admin/category/index?p=0|}">
+              <i class="fa-solid fa-backward-fast"></i>
+            </a>
+            <a th:href="@{|/admin/category/index?p=${page.number - 1}|}">
+              <i class="fa-solid fa-backward"></i>
+            </a>
+            <p style="padding-top: 8px" href="">[[${page.number}]]</p>
+            <a th:href="@{|/admin/category/index?p=${page.number + 1}|}"
+              ><i class="fa-solid fa-forward"></i
+            ></a>
+            <a th:href="@{|/admin/category/index?p=${page.totalPages -1}|}"
+              ><i class="fa-solid fa-forward-fast"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+     
+    </script>
+  </body>
+</html>

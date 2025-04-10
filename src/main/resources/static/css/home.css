@@ -1,0 +1,128 @@
+
+      header .form-control {
+        max-width: 300px;
+      }
+
+      header .btn {
+        white-space: nowrap;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      /* Banner */
+      .banner img {
+        border-radius: 8px;
+      }
+
+      /* Hiệu ứng hover */
+      .product-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      }
+
+      .product-card img {
+        transition: transform 0.3s ease, filter 0.3s ease;
+      }
+
+      .product-card:hover img {
+        transform: scale(1.05);
+        filter: brightness(1.1);
+      }
+
+      .product img {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .product {
+        padding: 0 2px; /* Giảm khoảng cách ngang */
+      }
+
+      .product:hover img {
+        transform: scale(1.1);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .product-card-hover {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .product-card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      }
+
+      .product-card-hover img {
+        transition: transform 0.3s ease, filter 0.3s ease;
+      }
+
+      .product-card-hover:hover img {
+        transform: scale(1.05);
+        filter: brightness(1.1);
+      }
+
+      .product-card-hover .btn {
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
+
+      /* .product-card-hover:hover .btn {
+        background-color: #ff5722;
+        transform: scale(1.05);
+      } */
+
+      /* Header cải tiến */
+      header {
+        background-color: #1485e1; /* Màu xanh primary */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      header .btn-light {
+        color: #2876c8;
+        font-weight: bold;
+      }
+
+      header .form-control {
+        border-radius: 20px 0 0 20px; /* Bo góc cho input */
+        border-right: none; /* Ẩn viền bên phải của input */
+      }
+
+      header .btn-warning {
+        border-radius: 0 20px 20px 0; /* Bo góc cho nút tìm kiếm */
+        font-weight: bold;
+      }
+
+      header .dropdown-toggle {
+        border-radius: 20px;
+      }
+
+      header .bi {
+        font-size: 1.2rem;
+      }
+      /* footer */
+
+      footer {
+        border-top: 3px solid 007bff; /* Đường viền xanh phía trên */
+      }
+
+      footer h6 {
+        color: #333;
+      }
+
+      footer p {
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      footer a:hover {
+        color: #007bff;
+        text-decoration: underline;
+      }
+
+      .sp {
+        width: 262px;
+      }
