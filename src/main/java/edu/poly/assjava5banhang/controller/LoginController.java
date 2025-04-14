@@ -2,12 +2,12 @@ package edu.poly.assjava5banhang.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import edu.poly.assjava5banhang.dao.AccountDAO;
 import edu.poly.assjava5banhang.model.Account;
@@ -33,30 +33,34 @@ public class LoginController {
     }
 
     @PostMapping("login")
-    public String loginProcess(RedirectAttributes model
-    ,@RequestParam("username") String username,
-    @RequestParam("password") String password
-    ){
-        Account user = dao.findByUsername(username);
-        if (user == null) {
-            model.addFlashAttribute("usernameError", "Username sai hoặc không tồn tại!");
-            return "redirect:/login";
-        }
-        if (!user.getPassword().equals(password)) {
-            model.addFlashAttribute("passwordError", "Sai mật khẩu!");
-            return "redirect:/login";
-            
-        }
-
-        if (!user.isActive()) {
-            model.addFlashAttribute("accountError", "Tài khoản của bạn chưa được kích hoạt!");
-            return "redirect:/login";
-        }
-        session.setAttribute("user", user);
-        shoppingCartService.setCurrentUser(username);
-        
-        return "redirect:/home";
+public String loginProcess(Model model,
+                           @RequestParam("username") String username,
+                           @RequestParam("password") String password) {
+    Account user = dao.findByUsername(username);
+    if (user == null) {
+        model.addAttribute("usernameError", "Username sai hoặc không tồn tại!");
+        model.addAttribute("enteredUsername", username);
+        return "user/login";
     }
+
+    if (!user.getPassword().equals(password)) {
+        model.addAttribute("passwordError", "Sai mật khẩu!");
+        model.addAttribute("enteredUsername", username);
+        return "user/login";
+    }
+
+    if (!user.isActive()) {
+        model.addAttribute("accountError", "Tài khoản của bạn chưa được kích hoạt!");
+        model.addAttribute("enteredUsername", username);
+        return "user/login";
+    }
+
+    session.setAttribute("user", user);
+    shoppingCartService.setCurrentUser(username);
+
+    return "redirect:/home";
+}
+
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {

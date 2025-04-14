@@ -47,15 +47,15 @@
             transition: opacity 0.5s ease;
      }
 
-      
+
     </style>
   </head>
 
   <body>
     <div class="container cart-container">
-      <h4>Giỏ hàng của bạn</h4>
+      <h2 class="mb-3">Giỏ hàng của bạn</h2>
       <small th:text="${succesMessage}"></small>
-
+    
       <!-- Giỏ hàng trống -->
       <div th:if="${#lists.isEmpty(cart)}" class="text-center mt-4">
         <p>Chưa có sản phẩm trong giỏ hàng</p>
@@ -77,8 +77,8 @@
               <h5 th:text="${item.name}">Tên sản phẩm</h5>
              
               <p
-                class="price"
-                th:text="${#numbers.formatDecimal(item.price,0,'COMMA',0,'POINT')}"
+               
+                th:text="${#numbers.formatDecimal(item.price,0,'COMMA',0,'POINT')} + ' VNĐ'"
               >
                 Giá sản phẩm
               </p>
@@ -86,7 +86,9 @@
           </div>
 
           <div class="d-flex justify-content-end align-items-center mt-2">
+            <a onclick=" return confirm('Bạn chắc chắn muốn xóa sản phẩm này?')" th:href="@{|/cart/removeCompletely/${item.id}|}" style="text-decoration: none;" class="mr-5 text-dark">Xóa </a>
             <a
+            style="width: 40px;"
               th:href="@{|/cart/remove/${item.id}|}"
               class="btn btn-outline-secondary btn-sm"
               >-</a
@@ -106,6 +108,7 @@
               />
             </form>
             <a
+              style="width: 40px;"
               th:href="@{|/cart/add/${item.id}|}"
               class="btn btn-outline-secondary btn-sm"
               >+</a
@@ -116,7 +119,7 @@
             <strong>Tạm tính:</strong>
             <span
               class="price"
-              th:text="${#numbers.formatDecimal(item.price * item.qty,0,'COMMA',0,'POINT')}"
+              th:text="${#numbers.formatDecimal(item.price * item.qty,0,'COMMA',0,'POINT')} + ' VNĐ'"
             >
               Tổng giá
             </span>
@@ -124,7 +127,7 @@
         </div>
 
         <!--  -->
-        <form action="/cart/checkout" method="post">
+        <form action="/cart/checkout" method="post" onsubmit="return prepareFullAddress()">
           <div class="delivery-box mt-4">
             <h5>Thông tin nhận hàng</h5>
             <div class="d-flex align-items-center">
@@ -136,14 +139,27 @@
               </div>
             </div>
             <p class="mt-2">
-              <label for="address">Địa chỉ nhận hàng </label>
-              <input
-                type="text"
-                id="address"
-                name="address"
-                class="form-control"
-              />
-              <small style="color: red;" th:text="${messageAddress}"></small>
+              <div class="mb-3">
+                <label for="addressInput" class="form-label">Địa chỉ nhận hàng</label>
+                <div class="input-group">
+                  <input type="text" id="addressInput" name="address" class="form-control" readonly />
+                  <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#addressModal">
+                    Chọn địa chỉ
+                  </button>
+
+                </div>
+              </div>
+              
+            
+              
+              
+              
+           
+               <!-- Các select: province, district, ward, và ô nhập detailAddress -->
+              <input type="hidden" name="address" id="fullAddress" />
+              
+              
+              <small th:if="${messageAddress}" th:text="${messageAddress}" class="text-bg-danger p-2"></small>
             </p>
 
             <p class="mt-2">
@@ -169,8 +185,120 @@
       </div>
     </div>
 
+    <!-- modal dia chi  -->
+    <div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Chọn địa chỉ</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-2">
+              <label for="provinceSelect" class="form-label">Tỉnh/Thành phố</label>
+              <select id="provinceSelect" class="form-select"></select>
+            </div>
+            <div class="mb-2">
+              <label for="districtSelect" class="form-label">Quận/Huyện</label>
+              <select id="districtSelect" class="form-select"></select>
+            </div>
+            <div class="mb-2">
+              <label for="wardSelect" class="form-label">Phường/Xã</label>
+              <select id="wardSelect" class="form-select"></select>
+            </div>
+            <div class="mb-2">
+              <label for="detailAddress" class="form-label">Số nhà, tên đường</label>
+              <input type="text" id="detailAddress" class="form-control" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="confirmAddress()">Xác nhận</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
     <!-- Link Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      // API Việt Nam
+      const api = "https://provinces.open-api.vn/api/";
+      
+      async function loadProvinces() {
+        const res = await fetch(api + "?depth=1");
+        const data = await res.json();
+        const select = document.getElementById("provinceSelect");
+        select.innerHTML = `<option value="">--Chọn Tỉnh--</option>`;
+        data.forEach(p => {
+          select.innerHTML += `<option value="${p.code}">${p.name}</option>`;
+        });
+      }
+      
+      async function loadDistricts(provinceCode) {
+        const res = await fetch(api + "p/" + provinceCode + "?depth=2");
+        const data = await res.json();
+        const select = document.getElementById("districtSelect");
+        select.innerHTML = `<option value="">--Chọn Quận--</option>`;
+        data.districts.forEach(d => {
+          select.innerHTML += `<option value="${d.code}">${d.name}</option>`;
+        });
+      }
+      
+      async function loadWards(districtCode) {
+        const res = await fetch(api + "d/" + districtCode + "?depth=2");
+        const data = await res.json();
+        const select = document.getElementById("wardSelect");
+        select.innerHTML = `<option value="">--Chọn Phường--</option>`;
+        data.wards.forEach(w => {
+          select.innerHTML += `<option value="${w.code}">${w.name}</option>`;
+        });
+      }
+      
+      // Gán sự kiện chọn
+      document.getElementById("provinceSelect").addEventListener("change", function () {
+        const code = this.value;
+        loadDistricts(code);
+        document.getElementById("wardSelect").innerHTML = `<option value="">--Chọn Phường--</option>`;
+      });
+      
+      document.getElementById("districtSelect").addEventListener("change", function () {
+        const code = this.value;
+        loadWards(code);
+      });
+      
+      function confirmAddress() {
+  const provinceSelect = document.getElementById("provinceSelect");
+  const districtSelect = document.getElementById("districtSelect");
+  const wardSelect = document.getElementById("wardSelect");
+  const detail = document.getElementById("detailAddress").value.trim();
+
+  const provinceText = provinceSelect.value ? provinceSelect.options[provinceSelect.selectedIndex].text : "";
+  const districtText = districtSelect.value ? districtSelect.options[districtSelect.selectedIndex].text : "";
+  const wardText = wardSelect.value ? wardSelect.options[wardSelect.selectedIndex].text : "";
+
+  if (!provinceText || !districtText || !wardText || !detail) {
+    document.getElementById("addressInput").value = ""; // Clear địa chỉ nếu thiếu
+    return;
+  }
+
+  const address = `${detail}, ${wardText}, ${districtText}, ${provinceText}`;
+  document.getElementById("addressInput").value = address;
+
+  const modal = bootstrap.Modal.getInstance(document.getElementById("addressModal"));
+  modal.hide();
+}
+
+
+
+      
+      // Load tỉnh lúc đầu
+      window.addEventListener("DOMContentLoaded", loadProvinces);
+      </script>
+      
+    
 
     
   </body>

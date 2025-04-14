@@ -72,6 +72,13 @@ public class ShoppingServiceImpl implements ShoppingCartService {
     }
 
     @Override
+public void removeCompletely(String username, Integer id) {
+    Map<Integer, Item> cart = getUserCart(username);
+    cart.remove(id);  // Xoá bất kể số lượng là bao nhiêu
+}
+
+
+    @Override
     public void clear(String username) {
         getUserCart(username).clear();
     }

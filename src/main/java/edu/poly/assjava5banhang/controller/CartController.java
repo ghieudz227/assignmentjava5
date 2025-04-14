@@ -126,6 +126,15 @@ public class CartController {
         return "redirect:/cart/index";
     }
 
+    @RequestMapping("/cart/removeCompletely/{id}")
+    public String removeCompletely(
+        @PathVariable("id") Integer id
+    ){
+        String username = (String) session.getAttribute("username");
+        shoppingCartService.removeCompletely(username,id);
+        return "redirect:/cart/index";
+    }
+
     @RequestMapping("/cart/checkout")
     public String checkout(RedirectAttributes model,@RequestParam("address") String address) {
         Account account = (Account) session.getAttribute("user");
@@ -135,11 +144,11 @@ public class CartController {
             return "redirect:/cart/index";
         }
 
-        if(address == null || address.isEmpty()){
+        if(address == null || address.isEmpty() || address.replaceAll(",", "").trim().isEmpty()){
             model.addFlashAttribute("messageAddress", "Vui lòng nhập địa chỉ nhận hàng!");
-            return "redirect:/cart/index";
-
+            return "redirect:/cart/index";        
         }
+
 
         // Tạo mới Order
         Order order = new Order();

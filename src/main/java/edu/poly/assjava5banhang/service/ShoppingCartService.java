@@ -23,6 +23,8 @@ public interface ShoppingCartService {
     double getAmount(String username);
 
     void setCurrentUser(String username);
+    
+    void removeCompletely(String username, Integer id);
 
     
 } 
